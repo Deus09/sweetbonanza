@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="explosive-effects.css">
     <style>
         /* Enhanced animations for better visual effects */
         @keyframes confetti {
@@ -35,6 +36,109 @@
             50% { transform: translateY(0px); opacity: 1; }
             100% { transform: translateY(0px); opacity: 1; }
         }
+
+        /* NEW: Explosive win animations for fruits */
+        @keyframes explode {
+            0% { 
+                transform: scale(1) rotate(0deg); 
+                opacity: 1;
+                filter: brightness(1) saturate(1);
+            }
+            25% { 
+                transform: scale(1.8) rotate(180deg); 
+                opacity: 1;
+                filter: brightness(3) saturate(3);
+                box-shadow: 0 0 30px #ffff00, 0 0 60px #ff6b6b, 0 0 90px #4ecdc4;
+            }
+            50% { 
+                transform: scale(2.2) rotate(360deg); 
+                opacity: 0.8;
+                filter: brightness(4) saturate(4);
+                box-shadow: 0 0 50px #ffff00, 0 0 100px #ff6b6b, 0 0 150px #4ecdc4;
+            }
+            75% { 
+                transform: scale(2.8) rotate(540deg); 
+                opacity: 0.5;
+                filter: brightness(5) saturate(5);
+                box-shadow: 0 0 70px #ffff00, 0 0 140px #ff6b6b, 0 0 210px #4ecdc4;
+            }
+            100% { 
+                transform: scale(3.5) rotate(720deg); 
+                opacity: 0;
+                filter: brightness(6) saturate(6);
+                box-shadow: 0 0 100px #ffff00, 0 0 200px #ff6b6b, 0 0 300px #4ecdc4;
+            }
+        }
+
+        @keyframes particles {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1) translateY(-20px);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) translateY(-40px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shockwave {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+                border-width: 8px;
+            }
+            50% {
+                opacity: 0.6;
+                border-width: 4px;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+                border-width: 0px;
+            }
+        }
+
+        @keyframes fruitBurst {
+            0% { 
+                transform: scale(1); 
+                filter: brightness(1) hue-rotate(0deg);
+            }
+            20% { 
+                transform: scale(1.3); 
+                filter: brightness(2) hue-rotate(90deg);
+            }
+            40% { 
+                transform: scale(1.6); 
+                filter: brightness(3) hue-rotate(180deg);
+            }
+            60% { 
+                transform: scale(1.9); 
+                filter: brightness(4) hue-rotate(270deg);
+            }
+            80% { 
+                transform: scale(2.2); 
+                filter: brightness(5) hue-rotate(360deg);
+            }
+            100% { 
+                transform: scale(0); 
+                filter: brightness(6) hue-rotate(720deg);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0) rotate(0deg);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1) rotate(180deg);
+            }
+        }
         
         .animate-shake {
             animation: shake 0.5s ease-in-out infinite;
@@ -46,6 +150,64 @@
         
         .animate-tumble {
             animation: tumble 0.8s ease-out;
+        }
+
+        /* NEW: Explosive fruit animations */
+        .animate-explode {
+            animation: explode 2s ease-out forwards;
+        }
+
+        .animate-fruit-burst {
+            animation: fruitBurst 1.8s ease-out forwards;
+        }
+
+        .animate-shockwave {
+            animation: shockwave 1.5s ease-out forwards;
+        }
+
+        .animate-particles {
+            animation: particles 1.2s ease-out forwards;
+        }
+
+        .animate-sparkle {
+            animation: sparkle 0.8s ease-in-out infinite;
+        }
+
+        /* Particle effects */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .particle-1 { background: #ff6b6b; animation: particles 1.2s ease-out forwards; }
+        .particle-2 { background: #4ecdc4; animation: particles 1.4s ease-out forwards; }
+        .particle-3 { background: #45b7d1; animation: particles 1.6s ease-out forwards; }
+        .particle-4 { background: #f9ca24; animation: particles 1.8s ease-out forwards; }
+        .particle-5 { background: #f0932b; animation: particles 2s ease-out forwards; }
+
+        /* Shockwave effect */
+        .shockwave {
+            position: absolute;
+            border: 8px solid #ffff00;
+            border-radius: 50%;
+            background: transparent;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Sparkle effects */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ffff00;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1001;
         }
         
         .confetti {
@@ -136,6 +298,10 @@
           const [winningSymbols, setWinningSymbols] = useState(new Set());
           const [showBigWin, setShowBigWin] = useState(false);
           const [isTumbling, setIsTumbling] = useState(false);
+          const [explosiveWins, setExplosiveWins] = useState(new Set());
+          const [particles, setParticles] = useState([]);
+          const [shockwaves, setShockwaves] = useState([]);
+          const [sparkles, setSparkles] = useState([]);
 
           const BET_AMOUNT = 20;
           const GRID_ROWS = 5;
@@ -168,6 +334,87 @@
           useEffect(() => {
             setGrid(initializeGrid());
           }, [initializeGrid]);
+
+          // Create explosive effects for winning symbols
+          const createExplosiveEffects = (winningPositions) => {
+            const newParticles = [];
+            const newShockwaves = [];
+            const newSparkles = [];
+            const newFireworks = [];
+
+            winningPositions.forEach(pos => {
+              const [row, col] = pos.split('-').map(Number);
+              const key = `${row}-${col}`;
+              
+              // Create MORE particles for each winning position (increased from 8 to 15)
+              for (let i = 0; i < 15; i++) {
+                newParticles.push({
+                  id: `${key}-particle-${i}`,
+                  row,
+                  col,
+                  type: (i % 8) + 1,
+                  delay: Math.random() * 0.8,
+                  offsetX: (Math.random() - 0.5) * 20,
+                  offsetY: (Math.random() - 0.5) * 20
+                });
+              }
+
+              // Create MULTIPLE shockwaves for more intensity
+              for (let i = 0; i < 3; i++) {
+                newShockwaves.push({
+                  id: `${key}-shockwave-${i}`,
+                  row,
+                  col,
+                  delay: i * 0.3
+                });
+              }
+
+              // Create MORE sparkles for enhanced effect
+              for (let i = 0; i < 12; i++) {
+                newSparkles.push({
+                  id: `${key}-sparkle-${i}`,
+                  row,
+                  col,
+                  delay: Math.random() * 1.5,
+                  offsetX: (Math.random() - 0.5) * 30,
+                  offsetY: (Math.random() - 0.5) * 30
+                });
+              }
+
+              // Add fireworks effect for extra visual impact
+              for (let i = 0; i < 8; i++) {
+                newFireworks.push({
+                  id: `${key}-firework-${i}`,
+                  row,
+                  col,
+                  type: (i % 5) + 1,
+                  delay: Math.random() * 1.2,
+                  angle: (360 / 8) * i,
+                  distance: 30 + Math.random() * 20
+                });
+              }
+            });
+
+            setParticles(newParticles);
+            setShockwaves(newShockwaves);
+            setSparkles(newSparkles);
+
+            // Store fireworks in a separate state if needed, or include in particles
+            // For now, we'll add them to particles with special properties
+            newFireworks.forEach(firework => {
+              newParticles.push({
+                ...firework,
+                type: 'firework-' + firework.type
+              });
+            });
+
+            // Clear effects after longer animation time
+            setTimeout(() => {
+              setParticles([]);
+              setShockwaves([]);
+              setSparkles([]);
+            }, 3000); // Increased from 2500 to 3000
+          };
 
           // Payout calculation based on symbol count
           const getPayoutForSymbol = (count) => {
@@ -331,16 +578,21 @@
               
               if (totalWin > 0) {
                 setWinningSymbols(winningPositions);
+                setExplosiveWins(winningPositions);
                 totalSpinWin += totalWin;
                 
-                await new Promise(resolve => setTimeout(resolve, 1800)); // Show win animation
+                // Create explosive effects for winning symbols
+                createExplosiveEffects(winningPositions);
+                
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Extended time for mega explosion effects
                 
                 setIsTumbling(true);
                 currentGrid = applyGravityAndRefill(currentGrid, winningPositions);
                 setGrid(currentGrid);
                 setWinningSymbols(new Set());
+                setExplosiveWins(new Set());
                 
-                await new Promise(resolve => setTimeout(resolve, 1200)); // Tumble animation
+                await new Promise(resolve => setTimeout(resolve, 1500)); // Tumble animation
                 setIsTumbling(false);
               } else {
                 hasWins = false;
@@ -395,7 +647,7 @@
           };
 
           return (
-            <div className="min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-4">
+            <div className="min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-2 sm:p-4">
               {/* Big Win Overlay with Confetti */}
               {showBigWin && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -417,46 +669,93 @@
                 </div>
               )}
 
-              <div className="max-w-6xl mx-auto">
-                {/* Header Dashboard */}
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-2xl">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                    <div className="bg-gradient-to-r from-green-400 to-green-600 text-white p-4 rounded-xl shadow-lg">
-                      <div className="text-lg font-semibold">Sanal Bakiye</div>
-                      <div className="text-3xl font-bold">{balance.toLocaleString()} Puan</div>
+              <div className="max-w-lg sm:max-w-2xl lg:max-w-4xl mx-auto">
+                {/* Header Dashboard - Kompakt Mobil Tasarım */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl p-3 mb-4 shadow-2xl">
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="bg-gradient-to-r from-green-400 to-green-600 text-white p-2 rounded-lg shadow-lg">
+                      <div className="text-xs font-medium">Sanal Bakiye</div>
+                      <div className="text-sm font-bold">{balance.toLocaleString()} Puan</div>
                     </div>
-                    <div className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 rounded-xl shadow-lg">
-                      <div className="text-lg font-semibold">Ücretsiz Spin</div>
-                      <div className="text-3xl font-bold">{freeSpins}</div>
+                    <div className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-2 rounded-lg shadow-lg">
+                      <div className="text-xs font-medium">Ücretsiz Spin</div>
+                      <div className="text-sm font-bold">{freeSpins}</div>
                     </div>
-                    <div className="bg-gradient-to-r from-purple-400 to-purple-600 text-white p-4 rounded-xl shadow-lg">
-                      <div className="text-lg font-semibold">Oturum Kazancı</div>
-                      <div className="text-3xl font-bold">{sessionWins.toLocaleString()} Puan</div>
+                    <div className="bg-gradient-to-r from-purple-400 to-purple-600 text-white p-2 rounded-lg shadow-lg">
+                      <div className="text-xs font-medium">Oturum Kazancı</div>
+                      <div className="text-sm font-bold">{sessionWins.toLocaleString()} Puan</div>
                     </div>
                   </div>
                 </div>
 
-                {/* Game Grid */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-2xl">
-                  <div className="grid grid-cols-6 gap-2 max-w-4xl mx-auto">
+                {/* Game Grid - Mobil Optimize */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-xl p-3 mb-4 shadow-2xl relative overflow-hidden">
+                  {/* Enhanced Particles with more variety */}
+                  {particles.map(particle => (
+                    <div
+                      key={particle.id}
+                      className={`particle ${particle.type.toString().includes('firework') ? 
+                        'firework ' + particle.type : 'particle-' + particle.type} animate-super-particles`}
+                      style={{
+                        left: `${(particle.col * 16.666) + 8.333 + (particle.offsetX || 0)}%`,
+                        top: `${(particle.row * 20) + 10 + (particle.offsetY || 0)}%`,
+                        animationDelay: `${particle.delay}s`,
+                        transform: particle.angle ? `rotate(${particle.angle}deg)` : 'none'
+                      }}
+                    />
+                  ))}
+
+                  {/* Enhanced Shockwaves - Multiple waves */}
+                  {shockwaves.map(shockwave => (
+                    <div
+                      key={shockwave.id}
+                      className="shockwave animate-mega-shockwave"
+                      style={{
+                        left: `${(shockwave.col * 16.666) + 6.333}%`,
+                        top: `${(shockwave.row * 20) + 8}%`,
+                        width: '4%',
+                        height: '16%',
+                        animationDelay: `${shockwave.delay}s`
+                      }}
+                    />
+                  ))}
+
+                  {/* Enhanced Sparkles with random positioning */}
+                  {sparkles.map(sparkle => (
+                    <div
+                      key={sparkle.id}
+                      className="sparkle animate-sparkle"
+                      style={{
+                        left: `${(sparkle.col * 16.666) + 8.333 + (sparkle.offsetX || Math.random() * 8)}%`,
+                        top: `${(sparkle.row * 20) + 10 + (sparkle.offsetY || Math.random() * 12)}%`,
+                        animationDelay: `${sparkle.delay}s`
+                      }}
+                    />
+                  ))}
+
+                  <div className="grid grid-cols-6 gap-1 max-w-full mx-auto relative">
                     {grid.map((row, rowIndex) =>
                       row.map((cell, colIndex) => (
                         <div
                           key={`${rowIndex}-${colIndex}`}
                           className={`
                             relative aspect-square bg-gradient-to-br from-pink-100 to-purple-100 
-                            rounded-xl flex items-center justify-center text-3xl md:text-4xl lg:text-5xl 
-                            border-4 border-white shadow-lg transition-all duration-300
+                            rounded-lg flex items-center justify-center
+                            border-2 border-white shadow-md transition-all duration-300
                             ${winningSymbols.has(`${rowIndex}-${colIndex}`) ? 
-                              'animate-pulse scale-110 border-yellow-400 bg-win-gradient animate-glow' : ''}
+                              'animate-pulse scale-110 border-yellow-400 bg-mega-win-gradient animate-glow' : ''}
+                            ${explosiveWins.has(`${rowIndex}-${colIndex}`) ? 
+                              'animate-mega-explode' : ''}
                             ${isTumbling ? 'animate-tumble' : ''}
                           `}
                         >
-                          <span className="drop-shadow-lg">{cell.symbol}</span>
+                          <span className={`text-4xl sm:text-5xl md:text-6xl drop-shadow-lg ${explosiveWins.has(`${rowIndex}-${colIndex}`) ? 'animate-fruit-burst' : ''}`}>
+                            {cell.symbol}
+                          </span>
                           {cell.multiplier && (
-                            <div className="absolute -top-2 -right-2 multiplier-bomb 
-                                          text-white text-xs font-bold px-2 py-1 rounded-full
-                                          shadow-lg">
+                            <div className="absolute -top-1 -right-1 multiplier-bomb 
+                                          text-white text-xs font-bold px-1 py-0.5 rounded-full
+                                          shadow-lg animate-glow">
                               {cell.multiplier}x
                             </div>
                           )}
@@ -466,14 +765,14 @@
                   </div>
                 </div>
 
-                {/* Controls */}
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-2xl">
-                  <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
+                {/* Controls - Mobil Optimize */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl p-3 mb-4 shadow-2xl">
+                  <div className="flex flex-col gap-3 items-center justify-center">
                     <button
                       onClick={spin}
                       disabled={isSpinning || isTumbling || (balance < BET_AMOUNT && freeSpins === 0)}
                       className={`
-                        px-8 py-4 text-xl font-bold rounded-xl transition-all duration-300 transform shadow-lg
+                        w-full px-6 py-3 text-lg font-bold rounded-lg transition-all duration-300 transform shadow-lg
                         ${isSpinning || isTumbling || (balance < BET_AMOUNT && freeSpins === 0)
                           ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                           : 'bg-gradient-to-r from-green-500 to-green-600 text-white hover:scale-105 hover:shadow-xl'
@@ -485,24 +784,24 @@
                     
                     <button
                       onClick={resetBalance}
-                      className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white 
-                               font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                      className="w-full px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white 
+                               font-semibold rounded-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
                     >
                       Sanal Bakiyeyi Sıfırla
                     </button>
                   </div>
                 </div>
 
-                {/* Message Area */}
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 mb-6 shadow-2xl">
-                  <div className="text-center text-xl font-semibold text-gray-800">
+                {/* Message Area - Kompakt */}
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl p-3 mb-4 shadow-2xl">
+                  <div className="text-center text-lg font-semibold text-gray-800">
                     {message}
                   </div>
                 </div>
 
-                {/* Therapeutic Warning */}
-                <div className="bg-red-600 text-white p-4 rounded-2xl shadow-2xl">
-                  <div className="text-center font-bold text-sm md:text-base">
+                {/* Therapeutic Warning - Mobil Optimize */}
+                <div className="bg-red-600 text-white p-3 rounded-xl shadow-2xl">
+                  <div className="text-center font-bold text-xs">
                     ⚠️ UYARI: Bu uygulama sadece terapötik amaçlı bir simülasyondur. Gerçek para riski içermez. ⚠️
                   </div>
                 </div>

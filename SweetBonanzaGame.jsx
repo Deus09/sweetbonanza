@@ -35,6 +35,10 @@ const SweetBonanzaGame = () => {
   const [winningSymbols, setWinningSymbols] = useState(new Set());
   const [showBigWin, setShowBigWin] = useState(false);
   const [isTumbling, setIsTumbling] = useState(false);
+  const [explosiveWins, setExplosiveWins] = useState(new Set());
+  const [particles, setParticles] = useState([]);
+  const [shockwaves, setShockwaves] = useState([]);
+  const [sparkles, setSparkles] = useState([]);
 
   const BET_AMOUNT = 20;
   const GRID_ROWS = 5;
@@ -67,6 +71,58 @@ const SweetBonanzaGame = () => {
   useEffect(() => {
     setGrid(initializeGrid());
   }, [initializeGrid]);
+
+  // Create explosive effects for winning symbols
+  const createExplosiveEffects = (winningPositions) => {
+    const newParticles = [];
+    const newShockwaves = [];
+    const newSparkles = [];
+
+    winningPositions.forEach(pos => {
+      const [row, col] = pos.split('-').map(Number);
+      const key = `${row}-${col}`;
+      
+      // Create particles for each winning position
+      for (let i = 0; i < 8; i++) {
+        newParticles.push({
+          id: `${key}-particle-${i}`,
+          row,
+          col,
+          type: (i % 5) + 1,
+          delay: Math.random() * 0.5
+        });
+      }
+
+      // Create shockwave
+      newShockwaves.push({
+        id: `${key}-shockwave`,
+        row,
+        col,
+        delay: 0.2
+      });
+
+      // Create sparkles
+      for (let i = 0; i < 5; i++) {
+        newSparkles.push({
+          id: `${key}-sparkle-${i}`,
+          row,
+          col,
+          delay: Math.random() * 1.0
+        });
+      }
+    });
+
+    setParticles(newParticles);
+    setShockwaves(newShockwaves);
+    setSparkles(newSparkles);
+
+    // Clear effects after animation
+    setTimeout(() => {
+      setParticles([]);
+      setShockwaves([]);
+      setSparkles([]);
+    }, 2500);
+  };
 
   // Payout calculation based on symbol count
   const getPayoutForSymbol = (count) => {
@@ -230,16 +286,21 @@ const SweetBonanzaGame = () => {
       
       if (totalWin > 0) {
         setWinningSymbols(winningPositions);
+        setExplosiveWins(winningPositions);
         totalSpinWin += totalWin;
         
-        await new Promise(resolve => setTimeout(resolve, 1500)); // Show win animation
+        // Create explosive effects for winning symbols
+        createExplosiveEffects(winningPositions);
+        
+        await new Promise(resolve => setTimeout(resolve, 2200)); // Extended time for explosion effects
         
         setIsTumbling(true);
         currentGrid = applyGravityAndRefill(currentGrid, winningPositions);
         setGrid(currentGrid);
         setWinningSymbols(new Set());
+        setExplosiveWins(new Set());
         
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Tumble animation
+        await new Promise(resolve => setTimeout(resolve, 1200)); // Tumble animation
         setIsTumbling(false);
       } else {
         hasWins = false;
@@ -294,7 +355,7 @@ const SweetBonanzaGame = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-2 sm:p-4">
       {/* Big Win Overlay */}
       {showBigWin && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -307,21 +368,21 @@ const SweetBonanzaGame = () => {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto">
-        {/* Header Dashboard */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-2xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-            <div className="bg-gradient-to-r from-green-400 to-green-600 text-white p-4 rounded-xl">
-              <div className="text-lg font-semibold">Sanal Bakiye</div>
-              <div className="text-3xl font-bold">{balance.toLocaleString()} Puan</div>
+      <div className="max-w-lg sm:max-w-2xl lg:max-w-4xl mx-auto">
+        {/* Header Dashboard - Kompakt Mobil Tasarım */}
+        <div className="bg-white/90 backdrop-blur-sm rounded-xl p-3 mb-4 shadow-2xl">
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="bg-gradient-to-r from-green-400 to-green-600 text-white p-2 rounded-lg shadow-lg">
+              <div className="text-xs font-medium">Sanal Bakiye</div>
+              <div className="text-sm font-bold">{balance.toLocaleString()} Puan</div>
             </div>
-            <div className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-4 rounded-xl">
-              <div className="text-lg font-semibold">Ücretsiz Spin</div>
-              <div className="text-3xl font-bold">{freeSpins}</div>
+            <div className="bg-gradient-to-r from-blue-400 to-blue-600 text-white p-2 rounded-lg shadow-lg">
+              <div className="text-xs font-medium">Ücretsiz Spin</div>
+              <div className="text-sm font-bold">{freeSpins}</div>
             </div>
-            <div className="bg-gradient-to-r from-purple-400 to-purple-600 text-white p-4 rounded-xl">
-              <div className="text-lg font-semibold">Oturum Kazancı</div>
-              <div className="text-3xl font-bold">{sessionWins.toLocaleString()} Puan</div>
+            <div className="bg-gradient-to-r from-purple-400 to-purple-600 text-white p-2 rounded-lg shadow-lg">
+              <div className="text-xs font-medium">Oturum Kazancı</div>
+              <div className="text-sm font-bold">{sessionWins.toLocaleString()} Puan</div>
             </div>
           </div>
         </div>

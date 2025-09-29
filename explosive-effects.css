@@ -1,0 +1,430 @@
+/* Sweet Bonanza Explosive Visual Effects */
+
+/* Enhanced animations for better visual effects */
+@keyframes confetti {
+    0% { transform: translateY(-100vh) rotateZ(0deg); }
+    100% { transform: translateY(100vh) rotateZ(720deg); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes glow {
+    0%, 100% { 
+        box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00de, 0 0 20px #ff00de;
+    }
+    50% { 
+        box-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 8px #ff00de, 0 0 12px #ff00de;
+    }
+}
+
+@keyframes tumble {
+    0% { transform: translateY(-20px); opacity: 0.7; }
+    50% { transform: translateY(0px); opacity: 1; }
+    100% { transform: translateY(0px); opacity: 1; }
+}
+
+/* MEGA EXPLOSIVE WIN ANIMATIONS FOR FRUITS */
+@keyframes megaExplode {
+    0% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 1;
+        filter: brightness(1) saturate(1) hue-rotate(0deg);
+        box-shadow: 0 0 0px transparent;
+    }
+    15% { 
+        transform: scale(1.5) rotate(90deg); 
+        opacity: 1;
+        filter: brightness(2) saturate(2) hue-rotate(90deg);
+        box-shadow: 0 0 20px #ffff00, 0 0 40px #ff6b6b;
+    }
+    30% { 
+        transform: scale(2.2) rotate(180deg); 
+        opacity: 1;
+        filter: brightness(3) saturate(3) hue-rotate(180deg);
+        box-shadow: 0 0 40px #ffff00, 0 0 80px #ff6b6b, 0 0 120px #4ecdc4;
+    }
+    45% { 
+        transform: scale(3.0) rotate(270deg); 
+        opacity: 0.9;
+        filter: brightness(4) saturate(4) hue-rotate(270deg);
+        box-shadow: 0 0 60px #ffff00, 0 0 120px #ff6b6b, 0 0 180px #4ecdc4, 0 0 240px #9b59b6;
+    }
+    60% { 
+        transform: scale(3.8) rotate(360deg); 
+        opacity: 0.7;
+        filter: brightness(5) saturate(5) hue-rotate(360deg);
+        box-shadow: 0 0 80px #ffff00, 0 0 160px #ff6b6b, 0 0 240px #4ecdc4, 0 0 320px #9b59b6;
+    }
+    75% { 
+        transform: scale(4.5) rotate(450deg); 
+        opacity: 0.5;
+        filter: brightness(6) saturate(6) hue-rotate(450deg);
+        box-shadow: 0 0 100px #ffff00, 0 0 200px #ff6b6b, 0 0 300px #4ecdc4, 0 0 400px #9b59b6;
+    }
+    90% { 
+        transform: scale(5.2) rotate(540deg); 
+        opacity: 0.3;
+        filter: brightness(7) saturate(7) hue-rotate(540deg);
+        box-shadow: 0 0 120px #ffff00, 0 0 240px #ff6b6b, 0 0 360px #4ecdc4, 0 0 480px #9b59b6;
+    }
+    100% { 
+        transform: scale(6.0) rotate(720deg); 
+        opacity: 0;
+        filter: brightness(8) saturate(8) hue-rotate(720deg);
+        box-shadow: 0 0 150px #ffff00, 0 0 300px #ff6b6b, 0 0 450px #4ecdc4, 0 0 600px #9b59b6;
+    }
+}
+
+@keyframes superParticles {
+    0% {
+        transform: scale(0) translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    25% {
+        transform: scale(1.2) translateY(-15px) rotate(90deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5) translateY(-30px) rotate(180deg);
+        opacity: 0.8;
+    }
+    75% {
+        transform: scale(1.2) translateY(-45px) rotate(270deg);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(0) translateY(-60px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes megaShockwave {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+        border-width: 12px;
+        border-color: #ffff00;
+    }
+    25% {
+        transform: scale(1) rotate(90deg);
+        opacity: 0.8;
+        border-width: 8px;
+        border-color: #ff6b6b;
+    }
+    50% {
+        transform: scale(2) rotate(180deg);
+        opacity: 0.6;
+        border-width: 6px;
+        border-color: #4ecdc4;
+    }
+    75% {
+        transform: scale(3) rotate(270deg);
+        opacity: 0.3;
+        border-width: 3px;
+        border-color: #9b59b6;
+    }
+    100% {
+        transform: scale(4) rotate(360deg);
+        opacity: 0;
+        border-width: 0px;
+        border-color: transparent;
+    }
+}
+
+@keyframes fruitBurst {
+    0% { 
+        transform: scale(1) skew(0deg); 
+        filter: brightness(1) hue-rotate(0deg) contrast(1);
+    }
+    10% { 
+        transform: scale(1.3) skew(5deg); 
+        filter: brightness(2) hue-rotate(36deg) contrast(2);
+    }
+    20% { 
+        transform: scale(1.6) skew(-5deg); 
+        filter: brightness(3) hue-rotate(72deg) contrast(3);
+    }
+    30% { 
+        transform: scale(1.9) skew(5deg); 
+        filter: brightness(4) hue-rotate(108deg) contrast(4);
+    }
+    40% { 
+        transform: scale(2.2) skew(-5deg); 
+        filter: brightness(5) hue-rotate(144deg) contrast(5);
+    }
+    50% { 
+        transform: scale(2.5) skew(5deg); 
+        filter: brightness(6) hue-rotate(180deg) contrast(6);
+    }
+    60% { 
+        transform: scale(2.8) skew(-5deg); 
+        filter: brightness(7) hue-rotate(216deg) contrast(7);
+    }
+    70% { 
+        transform: scale(3.1) skew(5deg); 
+        filter: brightness(8) hue-rotate(252deg) contrast(8);
+    }
+    80% { 
+        transform: scale(3.4) skew(-5deg); 
+        filter: brightness(9) hue-rotate(288deg) contrast(9);
+    }
+    90% { 
+        transform: scale(3.7) skew(5deg); 
+        filter: brightness(10) hue-rotate(324deg) contrast(10);
+    }
+    100% { 
+        transform: scale(0) skew(0deg); 
+        filter: brightness(11) hue-rotate(360deg) contrast(11);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% { 
+        opacity: 0; 
+        transform: scale(0) rotate(0deg);
+        filter: hue-rotate(0deg);
+    }
+    25% { 
+        opacity: 0.7; 
+        transform: scale(0.7) rotate(90deg);
+        filter: hue-rotate(90deg);
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1) rotate(180deg);
+        filter: hue-rotate(180deg);
+    }
+    75% { 
+        opacity: 0.7; 
+        transform: scale(0.7) rotate(270deg);
+        filter: hue-rotate(270deg);
+    }
+}
+
+@keyframes fireworks {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(2) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(4) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Animation Classes */
+.animate-mega-explode {
+    animation: megaExplode 2.5s ease-out forwards;
+}
+
+.animate-fruit-burst {
+    animation: fruitBurst 2.2s ease-out forwards;
+}
+
+.animate-mega-shockwave {
+    animation: megaShockwave 2s ease-out forwards;
+}
+
+.animate-super-particles {
+    animation: superParticles 1.8s ease-out forwards;
+}
+
+.animate-sparkle {
+    animation: sparkle 1s ease-in-out infinite;
+}
+
+.animate-fireworks {
+    animation: fireworks 2s ease-out forwards;
+}
+
+.animate-shake {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+.animate-glow {
+    animation: glow 1s ease-in-out infinite;
+}
+
+.animate-tumble {
+    animation: tumble 0.8s ease-out;
+}
+
+/* Particle effects with multiple colors */
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.particle-1 { 
+    background: radial-gradient(circle, #ff6b6b, #ee5a24); 
+    animation: superParticles 1.2s ease-out forwards; 
+}
+.particle-2 { 
+    background: radial-gradient(circle, #4ecdc4, #00d2d3); 
+    animation: superParticles 1.4s ease-out forwards; 
+}
+.particle-3 { 
+    background: radial-gradient(circle, #45b7d1, #3742fa); 
+    animation: superParticles 1.6s ease-out forwards; 
+}
+.particle-4 { 
+    background: radial-gradient(circle, #f9ca24, #f39801); 
+    animation: superParticles 1.8s ease-out forwards; 
+}
+.particle-5 { 
+    background: radial-gradient(circle, #f0932b, #eb4d4b); 
+    animation: superParticles 2s ease-out forwards; 
+}
+.particle-6 { 
+    background: radial-gradient(circle, #9b59b6, #8e44ad); 
+    animation: superParticles 1.3s ease-out forwards; 
+}
+.particle-7 { 
+    background: radial-gradient(circle, #2ecc71, #27ae60); 
+    animation: superParticles 1.5s ease-out forwards; 
+}
+.particle-8 { 
+    background: radial-gradient(circle, #e74c3c, #c0392b); 
+    animation: superParticles 1.7s ease-out forwards; 
+}
+
+/* Enhanced shockwave effect */
+.shockwave {
+    position: absolute;
+    border: 12px solid #ffff00;
+    border-radius: 50%;
+    background: transparent;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* Enhanced sparkle effects */
+.sparkle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #ffff00, #ffa502);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1001;
+    box-shadow: 0 0 10px #ffff00;
+}
+
+/* Fireworks effect */
+.firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1002;
+}
+
+.firework-1 { background: #ff6b6b; }
+.firework-2 { background: #4ecdc4; }
+.firework-3 { background: #45b7d1; }
+.firework-4 { background: #f9ca24; }
+.firework-5 { background: #f0932b; }
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .particle {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .sparkle {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .shockwave {
+        border-width: 8px;
+    }
+    
+    /* Mobile specific font sizes for emojis */
+    .mobile-emoji {
+        font-size: 2.5rem !important;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+    /* Tablet specific adjustments */
+    .tablet-emoji {
+        font-size: 3rem !important;
+    }
+}
+
+@media (min-width: 769px) {
+    /* Desktop specific adjustments */
+    .desktop-emoji {
+        font-size: 3.5rem !important;
+    }
+}
+
+/* Enhanced mobile grid spacing */
+@media (max-width: 640px) {
+    .mobile-grid {
+        gap: 0.25rem !important;
+        padding: 0.75rem !important;
+    }
+    
+    .mobile-cell {
+        border-width: 1px !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    .mobile-dashboard {
+        padding: 0.75rem !important;
+        margin-bottom: 1rem !important;
+        border-radius: 0.75rem !important;
+    }
+    
+    .mobile-dashboard-item {
+        padding: 0.5rem !important;
+        border-radius: 0.5rem !important;
+    }
+    
+    .mobile-dashboard-title {
+        font-size: 0.75rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .mobile-dashboard-value {
+        font-size: 0.875rem !important;
+        font-weight: 700 !important;
+    }
+}
+
+/* Enhanced gradient backgrounds */
+.bg-candy-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-win-gradient {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%);
+}
+
+.bg-mega-win-gradient {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #fecfef 75%, #fecfef 100%);
+}
+
+/* Multiplier bomb styling with enhanced effects */
+.multiplier-bomb {
+    background: radial-gradient(circle, #ff6b6b, #ee5a24);
+    border: 3px solid #fff;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+    animation: glow 1.5s ease-in-out infinite;
+}
