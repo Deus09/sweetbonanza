@@ -1,0 +1,26 @@
+{
+  "name": "sweet-bonanza-therapeutic-simulation",
+  "version": "1.0.0",
+  "description": "High-fidelity, non-monetary simulation clone of Sweet Bonanza for therapeutic exposure to gambling addiction triggers",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "dev": "python3 -m http.server 8080"
+  },
+  "keywords": [
+    "therapeutic",
+    "simulation", 
+    "sweet-bonanza",
+    "gambling-addiction",
+    "react",
+    "tailwindcss"
+  ],
+  "author": "Therapeutic Gaming Simulator",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deus09/sweetbonanza.git"
+  }
+}
